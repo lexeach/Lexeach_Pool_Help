@@ -567,11 +567,15 @@ const Dashboard = () => {
         let income = await contractInstance.methods
           .income(connectedAddress)
           .call({ from: connectedAddress });
+        let pool1users = await autoPoolInstance.methods
+          .pool1users(connectedAddress)
+          .call({ from: connectedAddress });
         partnerInfo[0].value = partnerCount;
         partnerInfo[1].value = partnerId;
+        let income1 = income.income + pool1users.autoIncome;
         partnerInfo[2].value =
-          income.income > 0
-            ? parseFloat(Web3.utils.fromWei(income.income, "ether")).toFixed(4)
+          income1 > 0
+            ? parseFloat(Web3.utils.fromWei(income1, "ether")).toFixed(4)
             : 0;
         partnerInfo[3].value = income.planer;
         partnerInfo[4].value = income.levelIncomeReceived;
