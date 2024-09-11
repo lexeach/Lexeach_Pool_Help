@@ -657,6 +657,9 @@ const Dashboard = () => {
           { level: 5, upgradePower: 0, levelPrice: 448 },
           { level: 6, upgradePower: 0, levelPrice: 896 },
           { level: 7, upgradePower: 0, levelPrice: 1792 },
+          { level: 8, upgradePower: 0, levelPrice: 3584 },
+          { level: 9, upgradePower: 0, levelPrice: 7168 },
+          
         ];
         const userUpgradePower = [
           { level: 1, upgradePower: 0, levelPrice: 28 },
@@ -666,6 +669,8 @@ const Dashboard = () => {
           { level: 5, upgradePower: 0, levelPrice: 448 },
           { level: 6, upgradePower: 0, levelPrice: 896 },
           { level: 7, upgradePower: 0, levelPrice: 1792 },
+          { level: 8, upgradePower: 0, levelPrice: 3584 },
+          { level: 9, upgradePower: 0, levelPrice: 7168 },
         ];
 
         for (let i = 0; i < 7; i++) {
