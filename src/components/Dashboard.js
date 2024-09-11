@@ -96,10 +96,10 @@ const Dashboard = () => {
     { title: "Active User ID", value: 0 },
     { title: "Current User ID", value: 0 },
     { title: "User ID", value: 0 },
-    { title: "User Payment Received", value: 0 },
-    { title: "User Auto Income", value: 0 },
-    { title: "User Partner Pool Received", value: 0 },
-    { title: "User Sponsor Pool Received", value: 0 },
+    { title: "User Received", value: 0 },
+    { title: "Auto Income", value: 0 },
+    { title: "Partner Received", value: 0 },
+    { title: "Sponsor Received", value: 0 },
   ]);
   const [partnerInfo, setPartnerInfo] = useState([
     { title: "Partner Count", value: 0 },
@@ -496,10 +496,10 @@ const Dashboard = () => {
           { title: "Active User ID", value: 0 },
           { title: "Current User ID", value: 0 },
           { title: "User ID", value: 0 },
-          { title: "User Payment Received", value: 0 },
-          { title: "User Auto Income", value: 0 },
-          { title: "User Partner Pool Received", value: 0 },
-          { title: "User Sponsor Pool Received", value: 0 },
+          { title: "User Received", value: 0 },
+          { title: "Auto Income", value: 0 },
+          { title: "Partner Received", value: 0 },
+          { title: "Sponsor Received", value: 0 },
         ];
 
         let pool1activeUserID = await autoPoolInstance.methods
