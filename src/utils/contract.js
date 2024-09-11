@@ -1,7 +1,7 @@
-const contractAddress = "0x693FEb6af633649920CB4bB3166799e0a14ff604"; // Replace with your deployed contract address
+const contractAddress = "0x711B3764DC85A6E0de54c7ecfF649292Be580bdC"; // Replace with your deployed contract address
 const examAddress = "0x75221506B9FC53fDdF3e516017926cbA6b5B3fd6";
 const stableCoinAddress = "0x0EB11261F9F778fEfd688e2dfAdB77862E96605b";
-const autoPoolAddress = "0xaDB0b360ee837395A5bB22f591772773fa3E8A60";
+const autoPoolAddress = "0xA54Bcd98F318a955E28C633E5cA7D7e30BB52e12";
 
 const abi = [
   {

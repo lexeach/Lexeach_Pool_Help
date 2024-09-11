@@ -15,22 +15,15 @@ import {
 const Dashboard = () => {
   const [connectedAddress, setConnectedAddress] = useState(null);
   const [isConnected, setIsConnected] = useState(false);
-  // const [networkId, setNetworkId] = useState("");
   const [contractInstance, setContractInstance] = useState(null);
   const [examInstance, setExamInstance] = useState(null);
   const [stableCoinInstance, setStableCoinInstance] = useState(null);
   const [autoPoolInstance, setAutoPoolInstance] = useState(null);
-  // const [users, setUsers] = useState(null);
-  // const [isExamQualifier, setIsExamQualifier] = useState(false);
   const [regFee, setRegFee] = useState(null);
-
-  // User Data
-  // const [isUserExist, setIsUserExist] = useState(false);
   const [userId, setUserId] = useState(null);
   const [referrerId, setUserReferrerId] = useState(null);
   const [coreferrerID, setCoreferrerID] = useState(null);
   const [referredUsers, setReferredUsers] = useState(null);
-  // const [coreferredUsers, setCoreferredUsers] = useState(0);
   const [income, setIncome] = useState(0);
   const [currUserID, setCurrUserID] = useState(null);
   const [totalQualifiedUser, setTotalQualifiedUser] = useState(null);
@@ -40,7 +33,7 @@ const Dashboard = () => {
   const [partnerId, setPartnerId] = useState();
   const [partnerCount, setPartnerCount] = useState();
   const [tokenPrice, setTokenPrice] = useState();
-  const [tokenReward, setTokenReward] = useState();
+  const [totalReward, setTotalReward] = useState();
   const [regTime, setRegTime] = useState();
 
   const [upgradeAllLevelPartnerValue, setUpgradeAllLevelPartnerValue] =
@@ -72,13 +65,15 @@ const Dashboard = () => {
     { level: 6, upgradePower: 0, levelPrice: 0 },
   ]);
   const [allPartnerUpgradePower, setAllPartnerUpgradePower] = useState([
-    { level: 1, upgradePower: 0, levelPrice: 0 },
-    { level: 2, upgradePower: 0, levelPrice: 0 },
-    { level: 3, upgradePower: 0, levelPrice: 0 },
-    { level: 4, upgradePower: 0, levelPrice: 0 },
-    { level: 5, upgradePower: 0, levelPrice: 0 },
-    { level: 6, upgradePower: 0, levelPrice: 0 },
-    { level: 7, upgradePower: 0, levelPrice: 0 },
+    { level: 1, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 2, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 3, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 4, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 5, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 6, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 7, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 8, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
+    { level: 9, upgradePower: 0, levelPrice: 0, upgradeStatus: false },
   ]);
   const [userUpgradePower, setUserUpgradePower] = useState([
     { level: 1, upgradePower: 0, levelPrice: 0 },
@@ -123,13 +118,13 @@ const Dashboard = () => {
     { level: 7, team: 0, upgradeCount: 0, upgradeStatus: false },
   ]);
   const [allPartnerLevelInfo, setAllPartnerLevelInfo] = useState([
-    { level: 1, team: 0, height: 0, upgradeStatus: false },
-    { level: 2, team: 0, height: 0, upgradeStatus: false },
-    { level: 3, team: 0, height: 0, upgradeStatus: false },
-    { level: 4, team: 0, height: 0, upgradeStatus: false },
-    { level: 5, team: 0, height: 0, upgradeStatus: false },
-    { level: 6, team: 0, height: 0, upgradeStatus: false },
-    { level: 7, team: 0, height: 0, upgradeStatus: false },
+    { level: 1, team: 0, height: 0 },
+    { level: 2, team: 0, height: 0 },
+    { level: 3, team: 0, height: 0 },
+    { level: 4, team: 0, height: 0 },
+    { level: 5, team: 0, height: 0 },
+    { level: 6, team: 0, height: 0 },
+    { level: 7, team: 0, height: 0 },
   ]);
 
   const [searchHeightUser, setSearchHeightUser] = useState(""); // New state for search input
@@ -140,7 +135,7 @@ const Dashboard = () => {
   useEffect(() => {
     let storedAddress = localStorage.getItem("connectedAddress");
     if (storedAddress) {
-      //storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+      // storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
       setConnectedAddress(storedAddress);
       setIsConnected(true);
     }
@@ -173,7 +168,7 @@ const Dashboard = () => {
       });
       if (accounts.length > 0) {
         let account = accounts[0];
-        //account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+        // account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
         localStorage.setItem("connectedAddress", account);
         setConnectedAddress(account);
         setIsConnected(true);
@@ -324,10 +319,10 @@ const Dashboard = () => {
           .tokenPrice()
           .call({ from: connectedAddress });
         setTokenPrice(tokenPrice);
-        let tokenReward = await contractInstance.methods
-          .tokenReward()
+        let totlaRew = await contractInstance.methods
+          .totalReward(connectedAddress)
           .call({ from: connectedAddress });
-        setTokenReward(tokenReward);
+        setTotalReward(totlaRew);
         let regTime = await contractInstance.methods
           .regTime(connectedAddress)
           .call({ from: connectedAddress });
@@ -389,11 +384,6 @@ const Dashboard = () => {
           .call({ from: connectedAddress });
 
         for (let i = 0; i < 7; i++) {
-          let userUpgradeStatus = await contractInstance.methods
-            .alluserUpgradeStatus(i + 1, connectedAddress)
-            .call({ from: connectedAddress });
-
-          fetchedData[i].upgradeStatus = userUpgradeStatus;
           fetchedData[i].team = levels[i];
           let height = await contractInstance.methods
             .allHeightLevel(i + 1, connectedAddress)
@@ -451,7 +441,7 @@ const Dashboard = () => {
             level: 1,
             team: parLevels[0],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
           {
             level: 2,
@@ -463,31 +453,31 @@ const Dashboard = () => {
             level: 3,
             team: parLevels[2],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
           {
             level: 4,
             team: parLevels[3],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
           {
             level: 5,
             team: parLevels[4],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
           {
             level: 6,
             team: parLevels[5],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
           {
             level: 7,
             team: parLevels[6],
             height: 0,
-            upgradeStatus: false,
+            // upgradeStatus: false,
           },
         ];
 
@@ -650,33 +640,37 @@ const Dashboard = () => {
     const allUserPartnerUpgradeStatus = async () => {
       if (contractInstance && connectedAddress) {
         const patnerUpgradePower = [
-          { level: 1, upgradePower: 0, levelPrice: 28 },
-          { level: 2, upgradePower: 0, levelPrice: 56 },
-          { level: 3, upgradePower: 0, levelPrice: 112 },
-          { level: 4, upgradePower: 0, levelPrice: 224 },
-          { level: 5, upgradePower: 0, levelPrice: 448 },
-          { level: 6, upgradePower: 0, levelPrice: 896 },
-          { level: 7, upgradePower: 0, levelPrice: 1792 },
-          { level: 8, upgradePower: 0, levelPrice: 3584 },
-          { level: 9, upgradePower: 0, levelPrice: 7168 },
-          
+          { level: 1, upgradePower: 0, levelPrice: 28, upgradeStatus: false },
+          { level: 2, upgradePower: 0, levelPrice: 56, upgradeStatus: false },
+          { level: 3, upgradePower: 0, levelPrice: 112, upgradeStatus: false },
+          { level: 4, upgradePower: 0, levelPrice: 224, upgradeStatus: false },
+          { level: 5, upgradePower: 0, levelPrice: 448, upgradeStatus: false },
+          { level: 6, upgradePower: 0, levelPrice: 896, upgradeStatus: false },
+          { level: 7, upgradePower: 0, levelPrice: 1792, upgradeStatus: false },
+          { level: 8, upgradePower: 0, levelPrice: 3584, upgradeStatus: false },
+          { level: 9, upgradePower: 0, levelPrice: 7168, upgradeStatus: false },
         ];
         const userUpgradePower = [
           { level: 1, upgradePower: 0, levelPrice: 28, upgradeStatus: false },
-          { level: 2, upgradePower: 0, levelPrice: 56 },
-          { level: 3, upgradePower: 0, levelPrice: 112 },
-          { level: 4, upgradePower: 0, levelPrice: 224 },
-          { level: 5, upgradePower: 0, levelPrice: 448 },
-          { level: 6, upgradePower: 0, levelPrice: 896 },
-          { level: 7, upgradePower: 0, levelPrice: 1792 },
-          { level: 8, upgradePower: 0, levelPrice: 3584 },
-          { level: 9, upgradePower: 0, levelPrice: 7168 },
+          { level: 2, upgradePower: 0, levelPrice: 56, upgradeStatus: false },
+          { level: 3, upgradePower: 0, levelPrice: 112, upgradeStatus: false },
+          { level: 4, upgradePower: 0, levelPrice: 224, upgradeStatus: false },
+          { level: 5, upgradePower: 0, levelPrice: 448, upgradeStatus: false },
+          { level: 6, upgradePower: 0, levelPrice: 896, upgradeStatus: false },
+          { level: 7, upgradePower: 0, levelPrice: 1792, upgradeStatus: false },
+          { level: 8, upgradePower: 0, levelPrice: 3584, upgradeStatus: false },
+          { level: 9, upgradePower: 0, levelPrice: 7168, upgradeStatus: false },
         ];
 
-        for (let i = 0; i < 7; i++) {
+        for (let i = 0; i < 9; i++) {
           let allUserUpgradePower = await contractInstance.methods
             .allUserUpgradePower(i + 1, connectedAddress)
             .call({ from: connectedAddress });
+          let userUpgradeStatus = await contractInstance.methods
+            .alluserUpgradeStatus(i + 1, connectedAddress)
+            .call({ from: connectedAddress });
+
+          patnerUpgradePower[i].upgradeStatus = userUpgradeStatus;
           let partnerUpgradePower = await contractInstance.methods
             .allPartnerUpgradePower(i + 1, connectedAddress)
             .call({ from: connectedAddress });
@@ -1077,7 +1071,7 @@ const Dashboard = () => {
                   src="./logo.png"
                   alt="Logo"
                   width="140"
-                  height="55"
+                  height="24"
                   className="d-inline-block align-text-top"
                 />
               </a>
@@ -1164,9 +1158,9 @@ const Dashboard = () => {
             <div className="col-lg-3 col-sm-6">
               <div className="box">
                 <p id="totalReward" className="cards-numbers">
-                  {tokenReward
+                  {totalReward
                     ? parseFloat(
-                        Web3.utils.fromWei(tokenReward, "ether")
+                        Web3.utils.fromWei(totalReward, "ether")
                       ).toFixed(4)
                     : 0}{" "}
                   <span className="sub-number"></span>
@@ -1583,31 +1577,29 @@ const Dashboard = () => {
                 </button>
               </div>
               <div className="user-item mt-4">
-                <div className="col-3 user-title">Level Number</div>
-                <div className="col-3 user-value">Team</div>
-                <div className="col-3 user-value">Height</div>
-                <div className="col-3 user-value">Upgrade Status</div>
+                <div className="col-4 user-title">Level Number</div>
+                <div className="col-4 user-value">Team</div>
+                <div className="col-4 user-value">Height</div>
+                {/* <div className="col-3 user-value">Upgrade Status</div> */}
               </div>
 
-              {alluserLevelInfo.map(
-                ({ level, team, height, upgradeStatus }) => (
-                  <div className="user-item" key={level}>
-                    <div className="col-3 user-title">Level {level}</div>
-                    <div className="col-3 user-value">
-                      {team ? Number(team) : 0}
-                    </div>
-                    <div className="col-3 user-value">
-                      {Number(height) ? Number(height) : 0}
-                    </div>
-                    <div
+              {alluserLevelInfo.map(({ level, team, height }) => (
+                <div className="user-item" key={level}>
+                  <div className="col-4 user-title">Level {level}</div>
+                  <div className="col-4 user-value">
+                    {team ? Number(team) : 0}
+                  </div>
+                  <div className="col-4 user-value">
+                    {Number(height) ? Number(height) : 0}
+                  </div>
+                  {/* <div
                       className="col-3 user-value"
                       style={{ color: upgradeStatus ? "#28a745" : "#f672a7" }}
                     >
                       {upgradeStatus ? "✓" : "✗"}
-                    </div>
-                  </div>
-                )
-              )}
+                    </div> */}
+                </div>
+              ))}
             </div>
           </div>
           <div className="col-lg-6 ">
@@ -1618,21 +1610,28 @@ const Dashboard = () => {
             </div>
             <div className="user-box custom-background">
               <div class="user-item">
-                <div class="col-4 user-title">Level No</div>
-                <div class="col-4 user-value">Upgrade Power</div>
-                <div class="col-4 user-value">Level Price</div>
+                <div class="col-3 user-title">Level No</div>
+                <div class="col-3 user-value">Upgrade Power</div>
+                <div class="col-3 user-value">Level Price</div>
+                <div class="col-3 user-value">Upgrade Status</div>
               </div>
               {/* User Upgrade Power Items */}
               {allUserUpgradePower.map(
-                ({ level, upgradePower, levelPrice }) => (
+                ({ level, upgradePower, levelPrice, upgradeStatus }) => (
                   //   userUpgradePower.map((level) => (
                   <div className="user-item" key={level}>
-                    <div className="col-4 user-title">Level {level}</div>
-                    <div className="col-4 user-value">
+                    <div className="col-3 user-title">Level {level}</div>
+                    <div className="col-3 user-value">
                       {upgradePower ? upgradePower : 0}
                     </div>
-                    <div className="col-4 user-value ">
+                    <div className="col-3 user-value ">
                       {levelPrice ? levelPrice : 0}
+                    </div>
+                    <div
+                      className="col-3 user-value"
+                      style={{ color: upgradeStatus ? "#28a745" : "#f672a7" }}
+                    >
+                      {upgradeStatus ? "✓" : "✗"}
                     </div>
                   </div>
                 )
@@ -1667,45 +1666,43 @@ const Dashboard = () => {
               {[
                 {
                   title: "Level Number",
-                  values: ["Team", "Height", "Upgrade Status"],
+                  values: ["Team", "Height"],
                 },
               ].map((item, index) => (
                 <div className="user-item mt-4" key={index}>
                   <div className="col-3 user-title">{item.title}</div>
                   {item.values.map((value, idx) => (
-                    <div className="col-3 user-value" key={idx}>
+                    <div className="col-4 user-value" key={idx}>
                       {value}
                     </div>
                   ))}
                 </div>
               ))}
               {/* {[1, 2, 3, 4, 5, 6].map((level) => ( */}
-              {allPartnerLevelInfo.map(
-                ({ level, team, height, upgradeStatus }) => (
-                  <div className="user-item" key={level}>
-                    <div className="col-3 user-title">Level {level}</div>
-                    <div className="col-3 user-value">
-                      {team ? Number(team) : 0}
-                    </div>
-                    <div className="col-3 user-value">
-                      {Number(height) ? Number(height) : 0}
-                    </div>
-                    <div
+              {allPartnerLevelInfo.map(({ level, team, height }) => (
+                <div className="user-item" key={level}>
+                  <div className="col-4 user-title">Level {level}</div>
+                  <div className="col-4 user-value">
+                    {team ? Number(team) : 0}
+                  </div>
+                  <div className="col-4 user-value">
+                    {Number(height) ? Number(height) : 0}
+                  </div>
+                  {/* <div
                       className="col-3 user-value"
                       style={{ color: upgradeStatus ? "#28a745" : "#f672a7" }}
                     >
                       {upgradeStatus ? "✓" : "✗"}
-                    </div>
+                    </div> */}
 
-                    {/* <div
+                  {/* <div
                       className="col-2 user-value"
                       style={{ color: "#f672a7" }}
                     >
                       {upgradeStatus}
                     </div> */}
-                  </div>
-                )
-              )}
+                </div>
+              ))}
             </div>
           </div>
           <div className="col-lg-6  showhideSection">
@@ -1716,21 +1713,28 @@ const Dashboard = () => {
             </div>
             <div className="user-box custom-background">
               <div class="user-item">
-                <div class="col-4 user-title">Level No</div>
-                <div class="col-4 user-value">Upgrade Power</div>
-                <div class="col-4 user-value">Level Price</div>
+                <div class="col-3 user-title">Level No</div>
+                <div class="col-3 user-value">Upgrade Power</div>
+                <div class="col-3 user-value">Level Price</div>
+                <div class="col-3 user-value">Upgrade Status</div>
               </div>
               {/* Partner Upgrade Power Items */}
 
               {allPartnerUpgradePower.map(
-                ({ level, upgradePower, levelPrice }) => (
+                ({ level, upgradePower, levelPrice, upgradeStatus }) => (
                   <div className="user-item" key={level}>
-                    <div className="col-4 user-title">Level {level}</div>
-                    <div className="col-4 user-value">
+                    <div className="col-3 user-title">Level {level}</div>
+                    <div className="col-3 user-value">
                       {upgradePower ? upgradePower : 0}
                     </div>
-                    <div className="col-4 user-value levelPrice{level}">
+                    <div className="col-3 user-value levelPrice{level}">
                       {Number(levelPrice) ? Number(levelPrice) : 0}
+                    </div>
+                    <div
+                      className="col-3 user-value"
+                      style={{ color: upgradeStatus ? "#28a745" : "#f672a7" }}
+                    >
+                      {upgradeStatus ? "✓" : "✗"}
                     </div>
                   </div>
                 )
