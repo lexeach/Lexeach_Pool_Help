@@ -1077,7 +1077,7 @@ const Dashboard = () => {
                   src="./logo.png"
                   alt="Logo"
                   width="140"
-                  height="24"
+                  height="55"
                   className="d-inline-block align-text-top"
                 />
               </a>
