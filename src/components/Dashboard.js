@@ -135,7 +135,7 @@ const Dashboard = () => {
   useEffect(() => {
     let storedAddress = localStorage.getItem("connectedAddress");
     if (storedAddress) {
-      // storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+      storedAddress = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
       setConnectedAddress(storedAddress);
       setIsConnected(true);
     }
@@ -168,7 +168,7 @@ const Dashboard = () => {
       });
       if (accounts.length > 0) {
         let account = accounts[0];
-        // account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+        account = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
         localStorage.setItem("connectedAddress", account);
         setConnectedAddress(account);
         setIsConnected(true);
@@ -237,15 +237,6 @@ const Dashboard = () => {
         setExamInstance(examInstance);
         setStableCoinInstance(stableInstance);
         setAutoPoolInstance(autoPoolInstance);
-        // const usersData = await contractInstance.methods
-        //   .users(connectedAddress)
-        //   .call({ from: connectedAddress });
-        // setUsers(usersData);
-
-        // const isExamPassed = await examInstance.methods
-        //   .isPass(connectedAddress)
-        //   .call({ from: connectedAddress });
-        // setIsExamQualifier(isExamPassed);
       }
     };
     initWeb3AndContracts();
@@ -670,10 +661,17 @@ const Dashboard = () => {
             .alluserUpgradeStatus(i + 1, connectedAddress)
             .call({ from: connectedAddress });
 
-          patnerUpgradePower[i].upgradeStatus = userUpgradeStatus;
+          let partnerUpgradeStatus = await contractInstance.methods
+            .allpartnerUpgradeStatus(i + 1, connectedAddress)
+            .call({ from: connectedAddress });
+
+          userUpgradePower[i].upgradeStatus = userUpgradeStatus;
+          patnerUpgradePower[i].upgradeStatus = partnerUpgradeStatus;
+
           let partnerUpgradePower = await contractInstance.methods
             .allPartnerUpgradePower(i + 1, connectedAddress)
             .call({ from: connectedAddress });
+
           allUserUpgradePower =
             allUserUpgradePower > 0
               ? parseFloat(
