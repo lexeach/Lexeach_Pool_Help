@@ -152,20 +152,6 @@ const abi = [
   {
     anonymous: false,
     inputs: [
-      { indexed: true, internalType: "address", name: "user", type: "address" },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "amount",
-        type: "uint256",
-      },
-    ],
-    name: "SendBalance",
-    type: "event",
-  },
-  {
-    anonymous: false,
-    inputs: [
       {
         indexed: true,
         internalType: "address",
@@ -254,26 +240,6 @@ const abi = [
     type: "event",
   },
   {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: "address",
-        name: "sender",
-        type: "address",
-      },
-      {
-        indexed: false,
-        internalType: "uint256",
-        name: "partnerFee",
-        type: "uint256",
-      },
-      { indexed: false, internalType: "uint256", name: "now", type: "uint256" },
-    ],
-    name: "partnerFeePaid",
-    type: "event",
-  },
-  {
     inputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     name: "ALL_LEVEL_PRICE",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -344,36 +310,6 @@ const abi = [
   {
     inputs: [{ internalType: "uint256", name: "_level", type: "uint256" }],
     name: "UpgradeUserLevel",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_level", type: "uint256" },
-      { internalType: "uint256", name: "_amount", type: "uint256" },
-    ],
-    name: "addAllPowerPartner",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_level", type: "uint256" },
-      { internalType: "uint256", name: "_amount", type: "uint256" },
-    ],
-    name: "addAllPowerUser",
-    outputs: [],
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
-    inputs: [
-      { internalType: "uint256", name: "_level", type: "uint256" },
-      { internalType: "uint256", name: "_amount", type: "uint256" },
-    ],
-    name: "addPowerPartner",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -744,6 +680,46 @@ const abi = [
   {
     inputs: [{ internalType: "bool", name: "_status", type: "bool" }],
     name: "setTopApproving",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_fromLevel", type: "uint256" },
+      { internalType: "uint256", name: "_toLevel", type: "uint256" },
+    ],
+    name: "siftAllPowerPartner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_fromLevel", type: "uint256" },
+      { internalType: "uint256", name: "_toLevel", type: "uint256" },
+    ],
+    name: "siftAllPowerUser",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_fromLevel", type: "uint256" },
+      { internalType: "uint256", name: "_toLevel", type: "uint256" },
+    ],
+    name: "siftPowerPartner",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "_fromLevel", type: "uint256" },
+      { internalType: "uint256", name: "_toLevel", type: "uint256" },
+    ],
+    name: "siftPowerUser",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1523,6 +1499,13 @@ const autoPoolABI = [
     type: "function",
   },
   {
+    inputs: [],
+    name: "beforeTime",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "address", name: "", type: "address" }],
     name: "claimTaken",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
@@ -1540,6 +1523,13 @@ const autoPoolABI = [
     inputs: [],
     name: "isUnfreezing",
     outputs: [{ internalType: "bool", name: "", type: "bool" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [{ internalType: "address", name: "", type: "address" }],
+    name: "lastAutoID",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -1684,6 +1674,13 @@ const autoPoolABI = [
     type: "function",
   },
   {
+    inputs: [{ internalType: "uint256", name: "_beforeTime", type: "uint256" }],
+    name: "setBeforeTime",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "address", name: "_token", type: "address" }],
     name: "setRegStableCoin",
     outputs: [],
@@ -1757,7 +1754,7 @@ const autoPoolABI = [
   },
   {
     inputs: [],
-    name: "unfreezeYourToken",
+    name: "unfreezeICOToken",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -1774,6 +1771,16 @@ const autoPoolABI = [
     name: "upgradePool3",
     outputs: [],
     stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "", type: "uint256" },
+      { internalType: "address", name: "", type: "address" },
+    ],
+    name: "userAutoPoolID",
+    outputs: [{ internalType: "uint256", name: "nextID", type: "uint256" }],
+    stateMutability: "view",
     type: "function",
   },
   {

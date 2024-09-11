@@ -140,7 +140,7 @@ const Dashboard = () => {
   useEffect(() => {
     let storedAddress = localStorage.getItem("connectedAddress");
     if (storedAddress) {
-      // storedAddress = "0xD3a0AFC5801cb16300F9692534B832B1c8c1107c";
+      storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
       setConnectedAddress(storedAddress);
       setIsConnected(true);
     }
@@ -173,7 +173,7 @@ const Dashboard = () => {
       });
       if (accounts.length > 0) {
         let account = accounts[0];
-        // account = "0xD3a0AFC5801cb16300F9692534B832B1c8c1107c";
+        account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
         localStorage.setItem("connectedAddress", account);
         setConnectedAddress(account);
         setIsConnected(true);
@@ -262,16 +262,15 @@ const Dashboard = () => {
         const usersData = await contractInstance.methods
           .users(connectedAddress)
           .call({ from: connectedAddress });
+        let pool1users = await autoPoolInstance.methods
+          .pool1users(connectedAddress)
+          .call({ from: connectedAddress });
 
-        // setIsUserExist(usersData.isExist);
         setUserId(usersData.id);
         setUserReferrerId(usersData.referrerID);
         setCoreferrerID(usersData.coreferrerID);
         setReferredUsers(usersData.referredUsers);
-        // setCoreferredUsers(usersData.coreferredUsers);
-        setIncome(usersData.income);
-        // setLevelIncomeReceived(usersData.levelIncomeReceived);
-        // setStageIncomeReceived(usersData.stageIncomeReceived);
+        setIncome(usersData.income + pool1users.autoIncome);
         const partnerFee = await contractInstance.methods
           .partnerFee()
           .call({ from: connectedAddress });
@@ -1297,11 +1296,11 @@ const Dashboard = () => {
           </div>
           <div className="col-lg-6 mt-4">
             <div className="d-flex justify-content-center mt-4">
-              <div className="network-heading text-center rounded-top-2">
+              <div className="network-heading network-heading-updated1 text-center rounded-top-2">
                 AUTO INCOME INFO
               </div>
             </div>
-            <div className="user-box">
+            <div className="user-box custom-background1">
               {/* Auto Income Info Items */}
               {/* {autoIncomeInfo.map((item) => ( */}
               {autoIncomeInfo.map(({ title, value }) => (
