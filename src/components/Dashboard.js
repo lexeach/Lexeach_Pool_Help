@@ -135,7 +135,7 @@ const Dashboard = () => {
   useEffect(() => {
     let storedAddress = localStorage.getItem("connectedAddress");
     if (storedAddress) {
-      storedAddress = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
+      //storedAddress = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
       setConnectedAddress(storedAddress);
       setIsConnected(true);
     }
@@ -168,7 +168,7 @@ const Dashboard = () => {
       });
       if (accounts.length > 0) {
         let account = accounts[0];
-        account = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
+        //account = "0x57678c4D0322704DBC2922e09AfCD3f5FE88aD6D";
         localStorage.setItem("connectedAddress", account);
         setConnectedAddress(account);
         setIsConnected(true);
@@ -1069,7 +1069,7 @@ const Dashboard = () => {
                   src="./logo.png"
                   alt="Logo"
                   width="140"
-                  height="24"
+                  height="55"
                   className="d-inline-block align-text-top"
                 />
               </a>
