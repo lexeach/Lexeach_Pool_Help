@@ -662,7 +662,7 @@ const Dashboard = () => {
           
         ];
         const userUpgradePower = [
-          { level: 1, upgradePower: 0, levelPrice: 28 },
+          { level: 1, upgradePower: 0, levelPrice: 28, upgradeStatus: false },
           { level: 2, upgradePower: 0, levelPrice: 56 },
           { level: 3, upgradePower: 0, levelPrice: 112 },
           { level: 4, upgradePower: 0, levelPrice: 224 },
