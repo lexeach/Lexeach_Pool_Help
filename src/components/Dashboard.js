@@ -140,7 +140,7 @@ const Dashboard = () => {
   useEffect(() => {
     let storedAddress = localStorage.getItem("connectedAddress");
     if (storedAddress) {
-      storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+      //storedAddress = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
       setConnectedAddress(storedAddress);
       setIsConnected(true);
     }
@@ -173,7 +173,7 @@ const Dashboard = () => {
       });
       if (accounts.length > 0) {
         let account = accounts[0];
-        account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
+        //account = "0xb8D4217B314192857a2Ba34F413008F4EAdfd0f0";
         localStorage.setItem("connectedAddress", account);
         setConnectedAddress(account);
         setIsConnected(true);
