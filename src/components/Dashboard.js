@@ -313,7 +313,11 @@ const Dashboard = () => {
         let totlaRew = await contractInstance.methods
           .totalReward(connectedAddress)
           .call({ from: connectedAddress });
-        setTotalReward(totlaRew);
+        let totalAutoPoolRew = await autoPoolInstance.methods
+          .totalReward(connectedAddress)
+          .call({ from: connectedAddress });
+
+        setTotalReward(totlaRew + totalAutoPoolRew);
         let regTime = await contractInstance.methods
           .regTime(connectedAddress)
           .call({ from: connectedAddress });
